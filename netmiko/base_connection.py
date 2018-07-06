@@ -404,12 +404,12 @@ class BaseConnection(object):
         """Read channel until pattern detected. Return ALL data available."""
         return self._read_channel_expect(*args, **kwargs)
 
-    def read_until_prompt_or_pattern(self, pattern='', re_flags=0):
+    def read_until_prompt_or_pattern(self, pattern='', re_flags=0, max_loops=None):
         """Read until either self.base_prompt or pattern is detected. Return ALL data available."""
         combined_pattern = re.escape(self.base_prompt)
         if pattern:
             combined_pattern = r"({}|{})".format(combined_pattern, pattern)
-        return self._read_channel_expect(combined_pattern, re_flags=re_flags)
+        return self._read_channel_expect(combined_pattern, re_flags=re_flags, max_loops=max_loops)
 
     def serial_login(self, pri_prompt_terminator=r'#\s*$', alt_prompt_terminator=r'>\s*$',
                      username_pattern=r"(?:[Uu]ser:|sername|ogin)", pwd_pattern=r"assword",
